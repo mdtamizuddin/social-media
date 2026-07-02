@@ -27,9 +27,17 @@ export class FeedService {
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
+          
+          // Rehydrate Date objects from ISO strings
+          const rehydratedPosts = parsed.posts.map((post: any) => ({
+            ...post,
+            createdAt: new Date(post.createdAt),
+            updatedAt: new Date(post.updatedAt),
+          }));
+
           // Return cached feed
           return {
-            posts: parsed.posts,
+            posts: rehydratedPosts,
             nextCursor: parsed.nextCursor,
             hasNextPage: parsed.hasNextPage,
           };

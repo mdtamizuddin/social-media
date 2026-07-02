@@ -22,6 +22,11 @@ export class PostsResolver {
     return this.postsService.findById(id);
   }
 
+  @Query(() => [Post])
+  async userPosts(@Args('userId') userId: string): Promise<Post[]> {
+    return this.postsService.getPostsByAuthor(userId);
+  }
+
   @Mutation(() => Post)
   @UseGuards(GqlAuthGuard)
   async createPost(

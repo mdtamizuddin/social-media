@@ -91,6 +91,7 @@ type Query {
   post(id: String!): Post
   replies(commentId: String!): [Comment!]!
   user(username: String!): User
+  userPosts(userId: String!): [Post!]!
 }
 
 type ReactionBreakdown {
