@@ -11,7 +11,7 @@ export class FeedService {
     @InjectModel(Post.name) private postModel: Model<Post>,
     private followsService: FollowsService,
     private redisService: RedisService,
-  ) {}
+  ) { }
 
   async getHomeFeed(
     userId: string,
@@ -27,7 +27,7 @@ export class FeedService {
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
-          
+
           // Rehydrate Date objects from ISO strings
           const rehydratedPosts = parsed.posts.map((post: any) => ({
             ...post,

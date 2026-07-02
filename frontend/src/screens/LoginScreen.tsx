@@ -1,11 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  StyleSheet,
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -14,7 +9,8 @@ import {
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import { useAuth } from '../context/AuthContext';
-import { Colors } from '../theme/colors';
+import { useTheme } from '../theme/ThemeContext';
+import { Button, Card, Text, TextField } from '../components/ui';
 
 const LOGIN_MUTATION = gql`
   mutation Login($input: LoginInput!) {
@@ -36,6 +32,7 @@ const LOGIN_MUTATION = gql`
 `;
 
 export const LoginScreen = ({ navigation }: any) => {
+  const theme = useTheme();
   const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
@@ -75,145 +72,73 @@ export const LoginScreen = ({ navigation }: any) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      style={{ flex: 1, backgroundColor: theme.colors.background }}
     >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.header}>
-          <Text style={styles.logo}>Antigravity</Text>
-          <Text style={styles.subtitle}>Connect with the world in real-time</Text>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          padding: theme.spacing.xxl,
+        }}
+      >
+        <View style={{ alignItems: 'center', marginBottom: theme.spacing.huge }}>
+          <Text variant="display" color="accent" style={{ letterSpacing: 1 }}>
+            Antigravity
+          </Text>
+          <Text variant="body" color="textSecondary" style={{ marginTop: theme.spacing.sm }}>
+            Connect with the world in real-time
+          </Text>
         </View>
 
-        <View style={styles.form}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Username or Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter username or email"
-              placeholderTextColor={Colors.textDim}
-              value={identity}
-              onChangeText={setIdentity}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+        <Card padded="xxl" style={{ borderRadius: theme.radius.lg }}>
+          <TextField
+            label="Username or Email"
+            placeholder="Enter username or email"
+            value={identity}
+            onChangeText={setIdentity}
+            autoCapitalize="none"
+            autoCorrect={false}
+            containerStyle={{ marginBottom: theme.spacing.xl }}
+          />
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter password"
-              placeholderTextColor={Colors.textDim}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+          <TextField
+            label="Password"
+            placeholder="Enter password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize="none"
+            autoCorrect={false}
+            containerStyle={{ marginBottom: theme.spacing.xl }}
+          />
 
-          <TouchableOpacity
-            style={styles.button}
+          <Button
+            label="Log In"
             onPress={handleLogin}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color={Colors.white} />
-            ) : (
-              <Text style={styles.buttonText}>Log In</Text>
-            )}
-          </TouchableOpacity>
+            loading={loading}
+            fullWidth
+          />
 
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Don't have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.linkText}>Sign Up</Text>
-            </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginTop: theme.spacing.xxl,
+            }}
+          >
+            <Text variant="body" color="textSecondary">
+              Don&apos;t have an account?{' '}
+            </Text>
+            <Text
+              variant="bodyStrong"
+              color="accent"
+              onPress={() => navigation.navigate('Register')}
+            >
+              Sign Up
+            </Text>
           </View>
-        </View>
+        </Card>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: 24,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  logo: {
-    fontSize: 38,
-    fontWeight: 'bold',
-    color: Colors.primary,
-    letterSpacing: 1.5,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: Colors.textMuted,
-    marginTop: 8,
-  },
-  form: {
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    padding: 24,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  label: {
-    color: Colors.text,
-    fontSize: 14,
-    marginBottom: 8,
-    fontWeight: '500',
-  },
-  input: {
-    backgroundColor: Colors.surfaceCard,
-    borderColor: Colors.border,
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 12,
-    color: Colors.text,
-    fontSize: 16,
-  },
-  button: {
-    backgroundColor: Colors.primary,
-    borderRadius: 8,
-    padding: 16,
-    alignItems: 'center',
-    marginTop: 10,
-    shadowColor: Colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 4,
-  },
-  buttonText: {
-    color: Colors.white,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 24,
-  },
-  footerText: {
-    color: Colors.textMuted,
-    fontSize: 14,
-  },
-  linkText: {
-    color: Colors.secondary,
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-});

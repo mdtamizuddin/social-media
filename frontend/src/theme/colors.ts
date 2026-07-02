@@ -1,23 +1,34 @@
+import { darkColors, reactions } from './tokens';
+
+/**
+ * Back-compatible static color object.
+ *
+ * Screens not yet migrated to the `useTheme()` hook keep importing `Colors`.
+ * It now maps onto the Phase-0 dark palette (see tokens.ts), so legacy screens
+ * pick up the refined colors for free while staying dark until migrated.
+ *
+ * New code should prefer `useTheme()` from '../theme/ThemeContext'.
+ */
 export const Colors = {
-  background: '#0B0C10',
-  surface: '#161B22',
-  surfaceCard: '#1E2530',
-  primary: '#6366F1',     // Indigo / Electric Blue
-  secondary: '#EC4899',   // Hot Pink / Purple Accent
-  text: '#F3F4F6',
-  textMuted: '#9CA3AF',
-  textDim: '#6B7280',
-  border: '#30363D',
-  borderLight: '#444C56',
-  error: '#EF4444',
-  success: '#10B981',
-  white: '#FFFFFF',
-  
+  background: darkColors.background,
+  surface: darkColors.surface,
+  surfaceCard: darkColors.surfaceAlt,
+  primary: darkColors.accent,
+  secondary: '#E86AA6',
+  text: darkColors.text,
+  textMuted: darkColors.textSecondary,
+  textDim: darkColors.textMuted,
+  border: darkColors.border,
+  borderLight: darkColors.borderStrong,
+  error: darkColors.danger,
+  success: darkColors.success,
+  white: darkColors.white,
+
   // Reactions
-  like: '#3B82F6',
-  love: '#EF4444',
-  haha: '#F59E0B',
-  wow: '#10B981',
-  sad: '#6366F1',
-  angry: '#F97316',
+  like: reactions.LIKE,
+  love: reactions.LOVE,
+  haha: reactions.HAHA,
+  wow: reactions.WOW,
+  sad: reactions.SAD,
+  angry: reactions.ANGRY,
 };

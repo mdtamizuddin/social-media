@@ -7,6 +7,7 @@ import { AuthProvider } from './src/context/AuthContext';
 import { RealTimeProvider } from './src/context/RealTimeContext';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { ErrorBoundary } from './src/components/ErrorBoundary';
+import { ThemeProvider } from './src/theme/ThemeContext';
 import { Logger } from './src/utils/logger';
 
 export default function App() {
@@ -27,16 +28,18 @@ export default function App() {
 
   return (
     <ErrorBoundary screenName="App">
-      <ApolloProvider client={apolloClient}>
-        <AuthProvider>
-          <RealTimeProvider>
-            <SafeAreaProvider>
-              <StatusBar style="light" />
-              <RootNavigator />
-            </SafeAreaProvider>
-          </RealTimeProvider>
-        </AuthProvider>
-      </ApolloProvider>
+      <ThemeProvider>
+        <ApolloProvider client={apolloClient}>
+          <AuthProvider>
+            <RealTimeProvider>
+              <SafeAreaProvider>
+                <StatusBar style="light" />
+                <RootNavigator />
+              </SafeAreaProvider>
+            </RealTimeProvider>
+          </AuthProvider>
+        </ApolloProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
