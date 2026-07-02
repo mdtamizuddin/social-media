@@ -13,7 +13,7 @@ export class Comment {
 
   @Field(() => User)
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
-  userId: MongooseSchema.Types.ObjectId;
+  userId: any;
 
   @Field(() => ID)
   @Prop({
@@ -22,7 +22,7 @@ export class Comment {
     required: true,
     index: true,
   })
-  postId: MongooseSchema.Types.ObjectId;
+  postId: string;
 
   @Field(() => ID, { nullable: true })
   @Prop({
@@ -31,7 +31,7 @@ export class Comment {
     required: false,
     index: true,
   })
-  parentId?: MongooseSchema.Types.ObjectId;
+  parentId?: string;
 
   @Field()
   @Prop({ required: true, trim: true })

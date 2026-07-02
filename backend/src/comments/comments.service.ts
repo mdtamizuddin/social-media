@@ -46,7 +46,7 @@ export class CommentsService {
       if (parentComment) {
         // Trigger REPLY notification to the parent comment owner
         await this.notificationsService.createNotification({
-          recipientId: (parentComment.userId as any).toString(),
+          recipientId: parentComment.userId.toString(),
           senderId: userId,
           type: NotificationType.REPLY,
           postId,
@@ -63,7 +63,7 @@ export class CommentsService {
     } else {
       // It is a root comment, trigger COMMENT notification to the post owner
       await this.notificationsService.createNotification({
-        recipientId: (post.authorId as any).toString(),
+        recipientId: post.authorId.toString(),
         senderId: userId,
         type: NotificationType.COMMENT,
         postId,

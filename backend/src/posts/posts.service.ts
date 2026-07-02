@@ -64,7 +64,7 @@ export class PostsService {
       throw new NotFoundException('Post not found');
     }
 
-    if ((post.authorId as any).toString() !== authorId) {
+    if (post.authorId.toString() !== authorId) {
       throw new BadRequestException('Not authorized to delete this post');
     }
 
@@ -141,7 +141,7 @@ export class PostsService {
 
       // Create reaction notification
       await this.notificationsService.createNotification({
-        recipientId: (post.authorId as any).toString(),
+        recipientId: post.authorId.toString(),
         senderId: userId,
         type: NotificationType.REACTION,
         postId: post._id.toString(),

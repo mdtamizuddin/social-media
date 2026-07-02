@@ -1,0 +1,132 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthPayload {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+type Comment {
+  _id: ID!
+  content: String!
+  createdAt: DateTime!
+  parentId: ID
+  postId: ID!
+  updatedAt: DateTime!
+  userId: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type FeedResponse {
+  hasNextPage: Boolean!
+  nextCursor: String
+  posts: [Post!]!
+}
+
+input LoginInput {
+  identity: String!
+  password: String!
+}
+
+type Mutation {
+  createComment(content: String!, parentId: String, postId: String!): Comment!
+  createPost(caption: String!, media: [String!]! = []): Post!
+  deletePost(id: String!): Boolean!
+  followUser(followingId: String!): Boolean!
+  login(input: LoginInput!): AuthPayload!
+  logout: Boolean!
+  reactToPost(postId: String!, type: ReactionType!): Post!
+  readNotification(id: String!): Notification
+  refreshTokens(refreshToken: String!, userId: String!): AuthPayload!
+  register(input: RegisterInput!): AuthPayload!
+  unfollowUser(followingId: String!): Boolean!
+  updateProfile(avatarUrl: String, bio: String, coverPhotoUrl: String, displayName: String, isPrivate: Boolean): User!
+}
+
+type Notification {
+  _id: ID!
+  commentId: ID
+  createdAt: DateTime!
+  postId: ID
+  read: Boolean!
+  senderId: User!
+  type: NotificationType!
+}
+
+enum NotificationType {
+  COMMENT
+  FOLLOW
+  REACTION
+  REPLY
+}
+
+type Post {
+  _id: ID!
+  authorId: User!
+  caption: String!
+  commentCount: Float!
+  createdAt: DateTime!
+  mediaUrls: [String!]!
+  myReaction: ReactionType
+  reactionBreakdown: ReactionBreakdown!
+  reactionCount: Float!
+  updatedAt: DateTime!
+}
+
+type Query {
+  comments(postId: String!): [Comment!]!
+  exploreFeed(cursor: String, limit: Int! = 10): FeedResponse!
+  followers(userId: String!): [User!]!
+  following(userId: String!): [User!]!
+  homeFeed(cursor: String, limit: Int! = 10): FeedResponse!
+  isFollowing(userId: String!): Boolean!
+  me: User!
+  notifications: [Notification!]!
+  post(id: String!): Post
+  replies(commentId: String!): [Comment!]!
+  user(username: String!): User
+}
+
+type ReactionBreakdown {
+  ANGRY: Float!
+  HAHA: Float!
+  LIKE: Float!
+  LOVE: Float!
+  SAD: Float!
+  WOW: Float!
+}
+
+enum ReactionType {
+  ANGRY
+  HAHA
+  LIKE
+  LOVE
+  SAD
+  WOW
+}
+
+input RegisterInput {
+  displayName: String!
+  email: String!
+  password: String!
+  username: String!
+}
+
+type User {
+  _id: ID!
+  avatarUrl: String
+  bio: String
+  coverPhotoUrl: String
+  createdAt: DateTime!
+  displayName: String!
+  email: String!
+  isPrivate: Boolean!
+  updatedAt: DateTime!
+  username: String!
+}

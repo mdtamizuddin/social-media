@@ -28,27 +28,27 @@ export class Notification {
     required: true,
     index: true,
   })
-  recipientId: MongooseSchema.Types.ObjectId;
+  recipientId: any;
 
   @Field(() => User)
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
-  senderId: MongooseSchema.Types.ObjectId;
+  senderId: any;
 
   @Field(() => NotificationType)
   @Prop({ type: String, enum: NotificationType, required: true })
   type: NotificationType;
 
-  @Field({ nullable: true })
+  @Field(() => ID, { nullable: true })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Post', required: false })
-  postId?: MongooseSchema.Types.ObjectId;
+  postId?: string;
 
-  @Field({ nullable: true })
+  @Field(() => ID, { nullable: true })
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: 'Comment',
     required: false,
   })
-  commentId?: MongooseSchema.Types.ObjectId;
+  commentId?: string;
 
   @Field()
   @Prop({ default: false })

@@ -52,7 +52,7 @@ export class Post {
     required: true,
     index: true,
   })
-  authorId: MongooseSchema.Types.ObjectId;
+  authorId: any;
 
   @Field()
   @Prop({ required: true, trim: true })
